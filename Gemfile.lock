@@ -100,6 +100,7 @@ GEM
       sassc (>= 1.11)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    humanize (2.5.1)
     i18n (1.9.1)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.5)
@@ -250,6 +251,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   font-awesome-sass
+  humanize
   jbuilder (~> 2.7)
   listen (~> 3.3)
   pg (~> 1.1)

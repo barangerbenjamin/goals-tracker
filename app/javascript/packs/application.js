@@ -19,7 +19,7 @@ const Swing = require("swing");
 
 
 // Prepare the cards in the stack for iteration.
-const cards = [].slice.call(document.querySelectorAll('.row .card'));
+const cards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
 
 // An instance of the Stack is used to attach event listeners.
 const stack = Swing.Stack();
@@ -29,6 +29,13 @@ cards.forEach((targetElement) => {
   stack.createCard(targetElement);
 });
 
+function lowerDataPosition(cards) {
+  cards.forEach(card => {
+    console.log(card.dataset.position)
+    card.dataset.position = card.dataset.position - 1
+  })
+}
+
 // Add event listener for when a card is thrown out of the stack.
 stack.on('throwout', (event) => {
   // e.target Reference to the element that has been thrown out of the stack.
@@ -37,9 +44,14 @@ stack.on('throwout', (event) => {
     console.log("updating goals completion")
   } else if (event.throwDirection == Swing.Direction.LEFT) {
     console.log("lazy bum")
+    setTimeout(function() {
+        event.target.remove()
+    }, 400);
+
+    lowerDataPosition(cards)
   } else if (event.throwDirection == Swing.Direction.RIGHT) {
     console.log("updating goals to done")
-  } 
+  }
 });
 
 // Add event listener for when a card is thrown in the stack, including the spring back into place effect.
