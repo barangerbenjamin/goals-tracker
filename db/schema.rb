@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2022_02_03_220853) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "complete", default: false
     t.date "progress", default: [], array: true
+    t.date "actioned", default: [], array: true
   end
 
   create_table "user_goals", force: :cascade do |t|

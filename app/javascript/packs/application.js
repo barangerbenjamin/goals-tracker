@@ -19,7 +19,7 @@ const Swing = require("swing");
 
 
 // Prepare the cards in the stack for iteration.
-const cards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
+const cards = [].slice.call(document.querySelectorAll('.cards .swipe'));
 
 // An instance of the Stack is used to attach event listeners.
 const stack = Swing.Stack();
@@ -48,7 +48,8 @@ stack.on('throwout', (event) => {
         event.target.remove()
     }, 400);
 
-    lowerDataPosition(cards)
+    const allCards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
+    lowerDataPosition(allCards)
   } else if (event.throwDirection == Swing.Direction.RIGHT) {
     console.log("updating goals to done")
   }

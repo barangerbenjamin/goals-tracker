@@ -1,11 +1,14 @@
 <div class="card-stack">
   <div class="cards">
     <% @goals.each_with_index do |goal, index| %>
-      <div class="goal-card" data-position="<%= index + 1 %>">
+      <div class="goal-card swipe" data-position="<%= index + 1 %>">
         <%= goal.name %>
         <%= (goal_progress(goal) * 100).to_i %>%
       </div>
     <% end %>
+    <div class="goal-card" data-position="<%= @goals.count + 1 %>">
+      Thats all for today
+    </div>
   </div>
 </div>
 
