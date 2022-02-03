@@ -3,6 +3,7 @@
     <% @goals.each_with_index do |goal, index| %>
       <div class="goal-card" data-position="<%= index + 1 %>">
         <%= goal.name %>
+        <%= (goal_progress(goal) * 100).to_i %>%
       </div>
     <% end %>
   </div>
