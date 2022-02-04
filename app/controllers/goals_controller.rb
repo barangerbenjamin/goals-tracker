@@ -3,7 +3,7 @@ class GoalsController < ApplicationController
   before_action :set_goal, only: [:show, :edit, :update, :destroy]
 
   def index
-    @goals = current_user.goals
+    @goals = Goal.not_completed(current_user)
   end
 
   def show
