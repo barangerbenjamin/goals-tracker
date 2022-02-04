@@ -31,7 +31,6 @@ cards.forEach((targetElement) => {
 
 function lowerDataPosition(cards) {
   cards.forEach(card => {
-    console.log(card.dataset.position)
     card.dataset.position = card.dataset.position - 1
   })
 }
@@ -44,14 +43,28 @@ stack.on('throwout', (event) => {
     console.log("updating goals completion")
   } else if (event.throwDirection == Swing.Direction.LEFT) {
     console.log("lazy bum")
+    
+    fetch(`/goals/${event.target.dataset.goalId}`, {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json", 'X-CSRF-Token': Rails.csrfToken()},
+      body: JSON.stringify({goal: {complete: false}})
+    })
     setTimeout(function() {
-        event.target.remove()
+      event.target.remove()
     }, 400);
-
     const allCards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
     lowerDataPosition(allCards)
   } else if (event.throwDirection == Swing.Direction.RIGHT) {
-    console.log("updating goals to done")
+    fetch(`/goals/${event.target.dataset.goalId}`, {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json", 'X-CSRF-Token': Rails.csrfToken()},
+      body: JSON.stringify({goal: {complete: true }})
+    })
+    setTimeout(function() {
+      event.target.remove()
+    }, 400);
+    const allCards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
+    lowerDataPosition(allCards)
   }
 });
 

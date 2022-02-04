@@ -1,7 +1,7 @@
 <div class="card-stack">
   <div class="cards">
     <% @goals.each_with_index do |goal, index| %>
-      <div class="goal-card swipe" data-position="<%= index + 1 %>">
+      <div class="goal-card swipe" data-position="<%= index + 1 %>" data-goal-id="<%= goal.id %>">
         <%= goal.name %>
         <%= (goal_progress(goal) * 100).to_i %>%
       </div>
