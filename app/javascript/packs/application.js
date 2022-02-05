@@ -30,12 +30,13 @@ cards.forEach((targetElement) => {
 });
 
 function lowerDataPosition() {
+  console.log('1')
   const cards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
   const positions = cards.map(card => {
     return parseInt(card.dataset.position)
   })
-  console.log(!positions.includes(1))
-  console.log('inside')
+  // console.log(!positions.includes(1))
+  // console.log('inside')
   cards.forEach(card => {
     setTimeout(function() {
       card.dataset.position = card.dataset.position - 1
@@ -43,13 +44,23 @@ function lowerDataPosition() {
   })
 }
 
-function slotInBeforeDeckEnd(event) {
-  const deckEnd = document.querySelector('.goal-card.deck-end')
-  event.target.dataset.position = deckEnd.dataset.position
-  deckEnd.dataset.position = parseInt(deckEnd.dataset.position) + 1
-  stack.getCard(event.target).throwIn(0, 0)
+function slotInBeforeDeckEnd(event, isDeckEnd) {
+  if (isDeckEnd) {
+    const cards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
+    const positions = cards.map(card => {
+      return parseInt(card.dataset.position)
+    })
+    const highestId = positions.sort().at(-1)
+    event.target.dataset.position = highestId + 1
+    stack.getCard(event.target).throwIn(0, 0)
+    // stack.getCard(event.target).destroy()
+  } else {
+    const deckEnd = document.querySelector('.goal-card.deck-end')
+    event.target.dataset.position = deckEnd.dataset.position
+    deckEnd.dataset.position = parseInt(deckEnd.dataset.position) + 1
+    stack.getCard(event.target).throwIn(0, 0)
+  }
 }
-
 function slotInAfterDeckEnd(event, isDeckEnd) {
   const deckEnd = document.querySelector('.goal-card.deck-end')
   if(!isDeckEnd) {
@@ -81,9 +92,14 @@ function updateGoal(event, data) {
 }
 
 stack.on('throwout', (event) => {
+  // console.log("yes, i think so")
   if (event.throwDirection == Swing.Direction.UP) {
-    updateGoal(event, {goal: {complete: false}, no_action: true})
-    slotInBeforeDeckEnd(event)
+    if(event.target.hasAttribute('data-goal-id')) {
+      slotInBeforeDeckEnd(event, false)
+      updateGoal(event, {goal: {complete: false}, no_action: true})
+    } else {
+      slotInBeforeDeckEnd(event, true)
+    }
     lowerDataPosition()
   } else if (event.throwDirection == Swing.Direction.LEFT) {
     if(event.target.hasAttribute('data-goal-id')) {
@@ -96,7 +112,7 @@ stack.on('throwout', (event) => {
   } else if (event.throwDirection == Swing.Direction.RIGHT) {
     updateGoal(event, {goal: {complete: true}})
     slotInAndRemove(event, 500)
-    console.log('here')
+    // console.log('here')
     lowerDataPosition()
    }
 });
@@ -104,16 +120,18 @@ stack.on('throwout', (event) => {
 const incomplete = document.querySelector('.incomplete')
 
 incomplete.addEventListener('click', () => {
+  // console.log('hjeya')
   incomplete.classList.toggle('expanded')
+  const deckEnd = document.querySelector('.goal-card.deck-end')
   if(stack.getCard(deckEnd)) {
-    stack.getCard(deckEnd).destroy()
+    // stack.getCard(deckEnd).destroy()
   }
   const cards = [].slice.call(document.querySelectorAll('.cards .goal-card.actioned'));
   cards.forEach(card => {
     card.classList.remove('actioned')
     card.classList.add('not-actioned')
   })
-  const deckEnd = document.querySelector('.goal-card.deck-end')
+  // const deckEnd = document.querySelector('.goal-card.deck-end')
   if(incomplete.classList.contains('expanded')) {
     incomplete.innerHTML = '<i class="fas fa-folder-open"></i>'
     deckEnd.classList.add('shadow')
@@ -121,15 +139,13 @@ incomplete.addEventListener('click', () => {
     incomplete.innerHTML = '<i class="fas fa-folder"></i>'
     deckEnd.classList.remove('shadow')
     cards.forEach(card => {
-      console.log(card.classList)
-      console.log('123123')
       // card.classList.remove('actioned')
       // card.classList.add('actioned')
     })
   }
-  stack.createCard(deckEnd).throwOut()
+  stack.createCard(deckEnd).throwOut(0, -700)
 })
 
 stack.on('throwin', () => {
-  console.log('Card has snapped back to the stack.');
+  // console.log('Card has snapped back to the stack.');
 });

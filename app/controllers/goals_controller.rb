@@ -29,7 +29,7 @@ class GoalsController < ApplicationController
   end
 
   def update
-    @goal.actioned << Date.today unless params[:no_action]
+    @goal.actioned << Date.today unless params[:no_action] || Date.today.in?(@goal.actioned)
     if @goal.update(goal_params)
       render status: 200
     else
