@@ -4,6 +4,7 @@ class GoalsController < ApplicationController
 
   def index
     @goals = Goal.not_completed(current_user).reject { |goal| Date.today.in? goal.actioned }
+    @actioned_goals = Goal.not_completed(current_user).select { |goal| Date.today.in? goal.actioned }
   end
 
   def show
@@ -28,7 +29,7 @@ class GoalsController < ApplicationController
   end
 
   def update
-    @goal.actioned << Date.today
+    @goal.actioned << Date.today unless params[:no_action]
     if @goal.update(goal_params)
       render status: 200
     else
@@ -48,6 +49,6 @@ class GoalsController < ApplicationController
   end
 
   def goal_params
-    params.require(:goal).permit(:name, :description, :due_date, :complete)
+    params.require(:goal).permit(:name, :description, :due_date, :complete, :actioned)
   end
 end

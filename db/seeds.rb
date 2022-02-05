@@ -61,18 +61,22 @@ shared_goals = [
 tags = [
   {
     name: 'Sport',
+    color: '#00BBF9',
     url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/female-runner-running-at-summer-park-trail-healthy-royalty-free-image-1591373138.jpg'
   },
   {
     name: 'Work',
+    color: '#F1D302',
     url: 'https://api.time.com/wp-content/uploads/2021/02/laptop-home-office.jpg'
   },
   {
     name: 'Travel',
+    color: '#FF7F11',
     url: 'https://webunwto.s3.eu-west-1.amazonaws.com/styles/slider/s3/2022-01/making-tourism-stronger-and-ready-for-the-future.jpg?M1vriHj_jGebjjGzAWrK27DiTYnX7Rde&itok=1LVY9Kbo'
   },
   {
     name: 'Personal',
+    color: '#EB4B98',
     url: 'https://assets.keap.com/image/upload/b_rgb:FFFFFF,c_limit,dpr_1,f_auto,h_395,q_95,w_569/v1539262503/How%20and%20Why%20to%20Encourage%20Personal%20Growth%20Within%20Your%20Business/GettyImages-477397372.jpg'
   }
 ]

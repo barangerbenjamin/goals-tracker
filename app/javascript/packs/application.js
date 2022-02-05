@@ -29,46 +29,106 @@ cards.forEach((targetElement) => {
   stack.createCard(targetElement);
 });
 
-function lowerDataPosition(cards) {
-  cards.forEach(card => {
-    card.dataset.position = card.dataset.position - 1
+function lowerDataPosition() {
+  const cards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
+  const positions = cards.map(card => {
+    return parseInt(card.dataset.position)
+  })
+  if(!positions.includes(1)) {
+    cards.forEach(card => {
+      setTimeout(function() {
+        card.dataset.position = card.dataset.position - 1
+      }, 120);
+    })
+  }
+}
+
+function slotInBeforeDeckEnd(event) {
+  const deckEnd = document.querySelector('.goal-card.deck-end')
+  event.target.dataset.position = deckEnd.dataset.position
+  deckEnd.dataset.position = parseInt(deckEnd.dataset.position) + 1
+  stack.getCard(event.target).throwIn(0, 0)
+}
+
+function slotInAfterDeckEnd(event, isDeckEnd) {
+  const deckEnd = document.querySelector('.goal-card.deck-end')
+  if(!isDeckEnd) {
+    event.target.classList.remove('not-actioned')
+    event.target.classList.add('actioned')
+  }
+  const cards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
+  const positions = cards.map(card => {
+    return parseInt(card.dataset.position)
+  })
+  const highestId = positions.sort().at(-1)
+  event.target.dataset.position = highestId + 1
+  stack.getCard(event.target).throwIn(0, 0)
+}
+
+function slotInAndRemove(event, timeoutDuration) {
+  stack.getCard(event.target).throwIn(0, 0)
+  setTimeout(function() {
+    event.target.remove()
+  }, timeoutDuration);
+}
+
+function updateGoal(event, data) {
+  fetch(`/goals/${event.target.dataset.goalId}`, {
+    method: "PATCH",
+    headers: {"Content-Type": "application/json", 'X-CSRF-Token': Rails.csrfToken()},
+    body: JSON.stringify(data)
   })
 }
 
-// Add event listener for when a card is thrown out of the stack.
 stack.on('throwout', (event) => {
-  // e.target Reference to the element that has been thrown out of the stack.
-  // e.throwDirection Direction in which the element has been thrown (Direction.LEFT, Direction.RIGHT).
   if (event.throwDirection == Swing.Direction.UP) {
-    console.log("updating goals completion")
+    updateGoal(event, {goal: {complete: false}, no_action: true})
+    slotInBeforeDeckEnd(event)
+    lowerDataPosition()
   } else if (event.throwDirection == Swing.Direction.LEFT) {
-    console.log("lazy bum")
-    
-    fetch(`/goals/${event.target.dataset.goalId}`, {
-      method: "PATCH",
-      headers: {"Content-Type": "application/json", 'X-CSRF-Token': Rails.csrfToken()},
-      body: JSON.stringify({goal: {complete: false}})
-    })
-    setTimeout(function() {
-      event.target.remove()
-    }, 400);
-    const allCards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
-    lowerDataPosition(allCards)
+    if(event.target.hasAttribute('data-goal-id')) {
+      updateGoal(event, {goal: {complete: false}})
+      slotInAfterDeckEnd(event, false)
+    } else {
+      slotInAfterDeckEnd(event, true)
+    }
+    lowerDataPosition()
   } else if (event.throwDirection == Swing.Direction.RIGHT) {
-    fetch(`/goals/${event.target.dataset.goalId}`, {
-      method: "PATCH",
-      headers: {"Content-Type": "application/json", 'X-CSRF-Token': Rails.csrfToken()},
-      body: JSON.stringify({goal: {complete: true }})
-    })
-    setTimeout(function() {
-      event.target.remove()
-    }, 400);
-    const allCards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
-    lowerDataPosition(allCards)
-  }
+    updateGoal(event, {goal: {complete: true}})
+    slotInAndRemove(event, 500)
+    lowerDataPosition()
+   }
 });
 
-// Add event listener for when a card is thrown in the stack, including the spring back into place effect.
+const incomplete = document.querySelector('.incomplete')
+
+incomplete.addEventListener('click', () => {
+  incomplete.classList.toggle('expanded')
+  if(stack.getCard(deckEnd)) {
+    stack.getCard(deckEnd).destroy()
+  }
+  const cards = [].slice.call(document.querySelectorAll('.cards .goal-card.actioned'));
+  cards.forEach(card => {
+    card.classList.remove('actioned')
+    card.classList.add('not-actioned')
+  })
+  const deckEnd = document.querySelector('.goal-card.deck-end')
+  if(incomplete.classList.contains('expanded')) {
+    incomplete.innerHTML = '<i class="fas fa-folder-open"></i>'
+    deckEnd.classList.add('shadow')
+  } else {
+    incomplete.innerHTML = '<i class="fas fa-folder"></i>'
+    deckEnd.classList.remove('shadow')
+    cards.forEach(card => {
+      console.log(card.classList)
+      console.log('123123')
+      // card.classList.remove('actioned')
+      // card.classList.add('actioned')
+    })
+  }
+  stack.createCard(deckEnd).throwOut()
+})
+
 stack.on('throwin', () => {
   console.log('Card has snapped back to the stack.');
 });
