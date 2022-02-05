@@ -35,8 +35,6 @@ function lowerDataPosition() {
   const positions = cards.map(card => {
     return parseInt(card.dataset.position)
   })
-  // console.log(!positions.includes(1))
-  // console.log('inside')
   cards.forEach(card => {
     setTimeout(function() {
       card.dataset.position = card.dataset.position - 1
@@ -53,7 +51,6 @@ function slotInBeforeDeckEnd(event, isDeckEnd) {
     const highestId = positions.sort().at(-1)
     event.target.dataset.position = highestId + 1
     stack.getCard(event.target).throwIn(0, 0)
-    // stack.getCard(event.target).destroy()
   } else {
     const deckEnd = document.querySelector('.goal-card.deck-end')
     event.target.dataset.position = deckEnd.dataset.position
@@ -92,7 +89,6 @@ function updateGoal(event, data) {
 }
 
 stack.on('throwout', (event) => {
-  // console.log("yes, i think so")
   if (event.throwDirection == Swing.Direction.UP) {
     if(event.target.hasAttribute('data-goal-id')) {
       slotInBeforeDeckEnd(event, false)
@@ -111,8 +107,7 @@ stack.on('throwout', (event) => {
     lowerDataPosition()
   } else if (event.throwDirection == Swing.Direction.RIGHT) {
     updateGoal(event, {goal: {complete: true}})
-    slotInAndRemove(event, 500)
-    // console.log('here')
+    slotInAndRemove(event, 1000)
     lowerDataPosition()
    }
 });
@@ -120,32 +115,25 @@ stack.on('throwout', (event) => {
 const incomplete = document.querySelector('.incomplete')
 
 incomplete.addEventListener('click', () => {
-  // console.log('hjeya')
   incomplete.classList.toggle('expanded')
   const deckEnd = document.querySelector('.goal-card.deck-end')
-  if(stack.getCard(deckEnd)) {
-    // stack.getCard(deckEnd).destroy()
-  }
   const cards = [].slice.call(document.querySelectorAll('.cards .goal-card.actioned'));
-  cards.forEach(card => {
-    card.classList.remove('actioned')
-    card.classList.add('not-actioned')
-  })
-  // const deckEnd = document.querySelector('.goal-card.deck-end')
+  if(cards.length > 0) {
+    cards.forEach(card => {
+      card.classList.remove('actioned')
+      card.classList.add('not-actioned')
+    })
+    stack.createCard(deckEnd).throwOut(0, -700)
+  }
   if(incomplete.classList.contains('expanded')) {
     incomplete.innerHTML = '<i class="fas fa-folder-open"></i>'
     deckEnd.classList.add('shadow')
   } else {
     incomplete.innerHTML = '<i class="fas fa-folder"></i>'
     deckEnd.classList.remove('shadow')
-    cards.forEach(card => {
-      // card.classList.remove('actioned')
-      // card.classList.add('actioned')
-    })
   }
-  stack.createCard(deckEnd).throwOut(0, -700)
 })
 
-stack.on('throwin', () => {
+// stack.on('throwin', () => {
   // console.log('Card has snapped back to the stack.');
-});
+// });
