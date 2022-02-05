@@ -1,25 +1,32 @@
-<h2>Sign up</h2>
+<h2 class="font-1-2">Howdy. 🤠</h2>
+<h2 class="font-1-2">Nice to meet ya!</h2>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "mt-10"}) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.input :email,
                 required: true,
-                autofocus: true,
+                # autofocus: true,
+                label: false,
+                placeholder: "john.doe@email.com",
                 input_html: { autocomplete: "email" }%>
     <%= f.input :password,
                 required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                label: false,
+                placeholder: "•••••••",
+                # hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
                 input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
+    <%#= f.input :password_confirmation,
                 required: true,
+                placeholder: "•••••••",
+                label: false,
                 input_html: { autocomplete: "new-password" } %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
+    <%= f.button :submit, "Sign up", class: "form-submit" %>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<%#= render "devise/shared/links" %>

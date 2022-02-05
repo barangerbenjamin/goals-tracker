@@ -23,9 +23,7 @@
       <img src="https://acegif.com/wp-content/gif/wowo-applause-10.gif" alt="">
 
       <div class="deck-end-buttons">
-        <%= link_to new_goal_path do %>
-          <i class="fas fa-plus-circle"></i>
-        <% end %>
+        
         <div class="incomplete">
           <i class="fas fa-folder"></i>
         </div>
@@ -57,9 +55,9 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 100vw;
-    height: calc(100vh - 70px);
-    padding: 15vh;
+    /* width: 100vw; */
+    /* height: calc(100vh - 70px); */
+    /* padding: 15vh; */
   }
   .cards {
     position: relative;
@@ -161,7 +159,7 @@
   .deck-end-buttons {
     width: 80%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
   .fas {
     font-size: 40px;
