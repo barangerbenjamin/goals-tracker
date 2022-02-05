@@ -34,13 +34,13 @@ function lowerDataPosition() {
   const positions = cards.map(card => {
     return parseInt(card.dataset.position)
   })
-  if(!positions.includes(1)) {
-    cards.forEach(card => {
-      setTimeout(function() {
-        card.dataset.position = card.dataset.position - 1
-      }, 120);
-    })
-  }
+  console.log(!positions.includes(1))
+  console.log('inside')
+  cards.forEach(card => {
+    setTimeout(function() {
+      card.dataset.position = card.dataset.position - 1
+    }, 120);
+  })
 }
 
 function slotInBeforeDeckEnd(event) {
@@ -96,6 +96,7 @@ stack.on('throwout', (event) => {
   } else if (event.throwDirection == Swing.Direction.RIGHT) {
     updateGoal(event, {goal: {complete: true}})
     slotInAndRemove(event, 500)
+    console.log('here')
     lowerDataPosition()
    }
 });
