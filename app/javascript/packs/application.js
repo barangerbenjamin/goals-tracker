@@ -7,7 +7,9 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+import { initSelect2 } from '../components/init_select2';
 
+initSelect2();
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
@@ -114,25 +116,27 @@ stack.on('throwout', (event) => {
 
 const incomplete = document.querySelector('.incomplete')
 
-incomplete.addEventListener('click', () => {
-  incomplete.classList.toggle('expanded')
-  const deckEnd = document.querySelector('.goal-card.deck-end')
-  const cards = [].slice.call(document.querySelectorAll('.cards .goal-card.actioned'));
-  if(cards.length > 0) {
-    cards.forEach(card => {
-      card.classList.remove('actioned')
-      card.classList.add('not-actioned')
-    })
-    stack.createCard(deckEnd).throwOut(0, -700)
-  }
-  if(incomplete.classList.contains('expanded')) {
-    incomplete.innerHTML = '<i class="fas fa-folder-open"></i>'
-    deckEnd.classList.add('shadow')
-  } else {
-    incomplete.innerHTML = '<i class="fas fa-folder"></i>'
-    deckEnd.classList.remove('shadow')
-  }
-})
+if(incomplete) {
+  incomplete.addEventListener('click', () => {
+    incomplete.classList.toggle('expanded')
+    const deckEnd = document.querySelector('.goal-card.deck-end')
+    const cards = [].slice.call(document.querySelectorAll('.cards .goal-card.actioned'));
+    if(cards.length > 0) {
+      cards.forEach(card => {
+        card.classList.remove('actioned')
+        card.classList.add('not-actioned')
+      })
+      stack.createCard(deckEnd).throwOut(0, -700)
+    }
+    if(incomplete.classList.contains('expanded')) {
+      incomplete.innerHTML = '<i class="fas fa-folder-open"></i>'
+      deckEnd.classList.add('shadow')
+    } else {
+      incomplete.innerHTML = '<i class="fas fa-folder"></i>'
+      deckEnd.classList.remove('shadow')
+    }
+  })
+}
 
 // stack.on('throwin', () => {
   // console.log('Card has snapped back to the stack.');

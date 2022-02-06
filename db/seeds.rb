@@ -84,23 +84,23 @@ tags = [
 
 # user_2_goals.each { |goal| Goal.create(goal) }
 
+tags.each { |tag| Tag.create(tag) }
+
 users.each.with_index do |user, index|
   user = User.create(user)
   if index.zero?
     goals = user_1_goals.map do |goal|
-      tag = tags.find { |hash| hash[:name] == goal[:tag] }
+      new_tag = Tag.find_by_name(goal[:tag])
       goal.delete(:tag)
       new_goal = Goal.create(goal)
-      new_tag = Tag.create(tag)
       GoalTag.create(goal: new_goal, tag: new_tag)
       new_goal
     end
   else
     goals = user_2_goals.map do |goal|
-      tag = tags.find { |hash| hash[:name] == goal[:tag] }
+      new_tag = Tag.find_by_name(goal[:tag])
       goal.delete(:tag)
       new_goal = Goal.create(goal)
-      new_tag = Tag.create(tag)
       GoalTag.create(goal: new_goal, tag: new_tag)
       new_goal
     end
@@ -111,12 +111,10 @@ users.each.with_index do |user, index|
 end
 
 shared_goals.each do |shared|
-  tag = tags.find { |hash| hash[:name] == shared[:tag] }
+  new_tag = Tag.find_by_name(shared[:tag])
   shared.delete(:tag)
   goal = Goal.create(shared)
   UserGoal.create(user: User.first, goal: goal)
   UserGoal.create(user: User.last, goal: goal)
-  new_tag = Tag.create(tag)
   GoalTag.create(goal: goal, tag: new_tag)
 end
-

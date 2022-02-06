@@ -19,15 +19,23 @@
       </div>
     <% end %>
     <div class="goal-card deck-end" data-position="<%= @goals.count + 1 %>">
-      Thats all for today!
-      <img src="https://acegif.com/wp-content/gif/wowo-applause-10.gif" alt="">
+      <% if Goal.not_completed(current_user).any? %>
+        Thats all for today!
+        <img src="https://acegif.com/wp-content/gif/wowo-applause-10.gif" alt="">
 
-      <div class="deck-end-buttons">
-        
-        <div class="incomplete">
-          <i class="fas fa-folder"></i>
+        <div class="deck-end-buttons">
+
+          <div class="incomplete">
+            <i class="fas fa-folder"></i>
+          </div>
         </div>
-      </div>
+      <% else %>
+        <div class="new-prompt">
+          <h2 class="font-1-2" style='text-align: left'>¡Hola! 🕵️</h2>
+          <h2 class="font-1-2" style='text-align: left'>I see you are new around here!?</h2>
+        </div>
+        <%= link_to 'Add your first Goal', new_goal_path, class: 'form-submit' %>
+      <% end %>
     </div>
     <% @actioned_goals.each_with_index do |goal, index| %>
       <div class="goal-card swipe actioned shadow" data-position="<%= index + @goals.count + 2 %>" data-goal-id="<%= goal.id %>">
@@ -42,7 +50,7 @@
             <%= goal.name %>
           </div>
           <div class="body">
-            <%= goal.description %>
+            <%= goal.description.truncate(50) %>
           </div>
         </div>
       </div>
@@ -55,7 +63,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    /* width: 100vw; */
+    /* width: 100%; */
     /* height: calc(100vh - 70px); */
     /* padding: 15vh; */
   }
@@ -73,8 +81,8 @@
     justify-content: space-around;
     flex-direction: column;
     text-align: center;
-    height: 350px;
-    width: 245px;
+    height: 210px;
+    width: 175px;
     position: absolute;
     transition: all 0.3s;
     border-radius: 4px;
@@ -106,32 +114,34 @@
     width: 100%;
   }
   .card-image {
-    height: 60%;
+    height: 65%;
     width: 100%;
   }
   .card-bottom {
-    height: 30%;
+    height: 25%;
     width: 100%;
+    padding: 25px;
+    font-size: 0.9rem;
     position: relative
   }
   .goal-card.actioned {
-    height: 350px !important;
-    width: 245px !important;
+    height: 44vh !important;
+    width: 56% !important;
     z-index: 60 !important;
     top: 10px !important;
     box-shadow: 0 0px 0px white;
   }
   .goal-card[data-position='1'] {
-    height: 500px;
-    width: 350px;
+    height: 50vh;
+    width: 80%;
     z-index: 100;
     display: flex;
     align-items: center;
     justify-content: space-around;
   }
   .goal-card[data-position='2'] {
-    height: 450px;
-    width: 315px;
+    height: 48vh;
+    width: 72%;
     top: -30px;
     z-index: 90;
     display: flex;
@@ -139,8 +149,8 @@
     justify-content: space-around;
   }
   .goal-card[data-position='3'] {
-    height: 400px;
-    width: 280px;
+    height: 46vh;
+    width: 64%;
     z-index: 80;
     top: -60px;
     display: flex;
@@ -149,8 +159,8 @@
   }
   .goal-card[data-position='4'] {
     z-index: 70;
-    height: 350px;
-    width: 245px;
+    height: 44vh;
+    width: 56%;
     top: -90px;
     display: flex;
     align-items: center;
@@ -166,11 +176,13 @@
     color: #00BBF9;
   }
   .header {
+    width: 100%;
     position: absolute;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 1.1rem;
     top: -42px;
-    left: 20px;
+    left: 0;
+    padding: 2px;
     color: antiquewhite;
   }
 </style>
