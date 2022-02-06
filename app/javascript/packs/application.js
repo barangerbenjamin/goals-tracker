@@ -143,3 +143,10 @@ if(incomplete) {
 // stack.on('throwin', () => {
   // console.log('Card has snapped back to the stack.');
 // });
+
+const inputs = document.querySelectorAll('input')
+if (inputs) {
+  inputs.forEach(input => {
+    input.style.borderRadius = '7px';
+  })
+}
