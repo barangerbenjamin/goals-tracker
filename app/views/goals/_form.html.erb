@@ -44,10 +44,11 @@
 <% Tag.all.each do |tag| %>
   label[for='goal_tag_ids_<%= tag.id %>'] {
     background-color: <%= tag.color %>;
+    color: white !important;
   }
 
   label[for='goal_tag_ids_<%= tag.id %>']:checked {
-    background-color: <%= tag.color %>;
+    background-color: <%= tag.color %> !important;
     border: 2px solid <%= tag.color %>;
     transform: scale(1.1);
   }
