@@ -30,7 +30,7 @@
           <% else %>
             <div class="d-flex align-items-center justify-content-around height-20">
               <% if params[:action] != "new" %>
-                <%= link_to "New goal", new_goal_path, data: {turbolinks: false} %>
+                <h5><%= link_to "New goal", new_goal_path, data: {turbolinks: false} %></h5>
               <% end %>
             </div>
           <% end %>
