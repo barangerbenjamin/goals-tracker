@@ -34,7 +34,7 @@ cards.forEach((targetElement) => {
 });
 
 function lowerDataPosition() {
-  
+
   const cards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
   const positions = cards.map(card => {
     return parseInt(card.dataset.position)
@@ -44,10 +44,12 @@ function lowerDataPosition() {
       card.dataset.position = card.dataset.position - 1
     }, 120);
   })
-  if (incomplete.classList.contains('expanded')) {
-    const deckEnd = document.querySelector('.goal-card.deck-end')   
-    incomplete.innerHTML = '<i class="fas fa-folder"></i>'
-    deckEnd.classList.remove('shadow')
+  if (incomplete) {
+    if (incomplete.classList.contains('expanded')) {
+      const deckEnd = document.querySelector('.goal-card.deck-end')
+      incomplete.innerHTML = '<i class="fas fa-folder"></i>'
+      deckEnd.classList.remove('shadow')
+    }
   }
 }
 
@@ -101,12 +103,14 @@ stack.on('throwout', (event) => {
   if (event.throwDirection == Swing.Direction.UP) {
     if (event.target.hasAttribute('data-goal-id')) {
       slotInBeforeDeckEnd(event, false)
-      updateGoal(event, { goal: { complete: false }, no_action: true })
+      if(incomplete) {
+        updateGoal(event, { goal: { complete: false }, no_action: true })
+      }
     } else {
       slotInBeforeDeckEnd(event, true)
     }
     lowerDataPosition()
-  } else if (event.throwDirection == Swing.Direction.LEFT) {
+  } else if (event.throwDirection == Swing.Direction.LEFT && incomplete) {
     if (event.target.hasAttribute('data-goal-id')) {
       updateGoal(event, { goal: { complete: false } })
       slotInAfterDeckEnd(event, false)
@@ -114,10 +118,12 @@ stack.on('throwout', (event) => {
       slotInAfterDeckEnd(event, true)
     }
     lowerDataPosition()
-  } else if (event.throwDirection == Swing.Direction.RIGHT) {
+  } else if (event.throwDirection == Swing.Direction.RIGHT && incomplete) {
     updateGoal(event, { goal: { complete: true } })
     slotInAndRemove(event, 1000)
     lowerDataPosition()
+  } else {
+    stack.getCard(event.target).throwIn(0, 0)
   }
 });
 

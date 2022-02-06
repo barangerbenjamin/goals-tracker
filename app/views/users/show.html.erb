@@ -33,6 +33,10 @@
   </div>
 <% end %>
 
+<% if @user.goals.where(complete: true).present? %>
+  <%= link_to '👉See your completed Goals', completed_path, data: {turbolinks: false} %>
+<% end %>
+
 <style>
   .link-underline {
     font-weight: bolder;

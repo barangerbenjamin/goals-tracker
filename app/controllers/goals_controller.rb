@@ -30,6 +30,10 @@ class GoalsController < ApplicationController
   def edit
   end
 
+  def goals_completed
+    @goals = current_user.goals.where(complete: true)
+  end
+
   def update_js
     @goal.actioned << Date.today unless params[:no_action] || Date.today.in?(@goal.actioned)
     if @goal.update(goal_params)
