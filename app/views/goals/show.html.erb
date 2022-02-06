@@ -1,5 +1,16 @@
-<div class="col-sm-6 offset-3">
-  <%= @goal.name %>
-  <%= @goal.description %>
-  <%= @goal.due_date %>
+<div class="goal-card swipe not-actioned shadow">
+  <div class="card-top" style='background-color: <%= @goal.tags.first.color %>'>
+
+  </div>
+  <div class="card-image">
+    <img src="<%= @goal.tags.first.url %>" alt="">
+  </div>
+  <div class="card-bottom">
+    <div class="header">
+      <%= @goal.name %>
+    </div>
+    <div class="body">
+      <%= @goal.description %>
+    </div>
+  </div>
 </div>

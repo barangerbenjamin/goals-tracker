@@ -15,12 +15,14 @@ class GoalsController < ApplicationController
   end
 
   def create
-    @goal = Goal.create(goal_params)
-    UserGoal.create(user: current_user, goal: @goal)
+    @goal = Goal.new(goal_params)
 
-    if @goal.save
+    if params[:goal][:tag_ids].present? && @goal.save
+      GoalTag.create(goal: @goal, tag: Tag.find(params[:goal][:tag_ids]))
+      UserGoal.create(user: current_user, goal: @goal)
       redirect_to @goal
     else
+      @goal.errors.add(:tag_ids, 'Select a tag') unless params[:goal][:tag_ids].present?
       render :new
     end
   end
