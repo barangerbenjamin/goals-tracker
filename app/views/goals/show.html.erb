@@ -3,6 +3,9 @@
   </div>
   <div class="c-m" style="position: relative;">
     <%= link_to edit_goal_path(@goal), data: {turbolinks: false} do %>
+      <div class="card-date">
+        <%= @goal.due_date.strftime('%a, %b %d') %>
+      </div>
       <img src="<%= @goal.tags.first.url %>" alt="" style="max-width: 100%;">
       <div class="header-show">
         <%= @goal.name %>

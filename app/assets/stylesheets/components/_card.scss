@@ -60,7 +60,17 @@
 .card-image {
   height: 65%;
   width: 100%;
+  position: relative;
 }
+.card-date {
+  color: antiquewhite;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  z-index: inherit;
+  font-size: 14px
+}
+
 .card-bottom {
   height: 25%;
   width: 100%;
