@@ -1,2 +1,20 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<div class="greeting">
+  Hello, <%= @user.email %>
+</div>
+
+<div class="d-block">
+  <% if @user.goals.present? %>
+    You have set <%= pluralize(@user.goals.count, 'Goal') %>!
+
+    <div class="link mt-5 d-flex">
+      <%= link_to '💪Lets tackle them!', root_path, class: 'form-submit d-flex justify-content-around', data: {turbolinks: false} %>
+    </div>
+  <% else %>
+    You havent set any goals yet! 😱
+
+    <div class="link mt-5 d-flex">
+      <%= link_to '👉Set your first Goal here!', new_goal_path, class: 'form-submit d-flex justify-content-around', data: {turbolinks: false} %>
+    </div>
+  <% end %>
+</div>
+
