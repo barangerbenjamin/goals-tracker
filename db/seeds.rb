@@ -16,7 +16,7 @@ users = [
 user_1_goals = [
   {
     name: '20 push ups',
-    description: '',
+    description: 'strong body strong mind',
     due_date: Date.today + 2.day,
     tag: 'Sport'
   },
