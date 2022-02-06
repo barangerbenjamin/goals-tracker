@@ -9,7 +9,10 @@ class User < ApplicationRecord
 
   def goals_by_category
     Tag.all.map do |tag|
-      { tag.name.to_sym => tag.goals.select { |goal| self.id.in? goal.users.pluck(:user_id) } }
+      {
+        tag: tag,
+        goals: tag.goals.select { |goal| self.id.in? goal.users.pluck(:user_id) }
+      }
     end
   end
 end

@@ -18,8 +18,27 @@
 <% if @user.goals.present? %>
   <div class="mt-5">
     Your Goals at a glance:
-    <% @user.goals.each do |goal| %>
-
+    <% @user.goals_by_category.each do |category| %>
+      <% if category[:goals].present? %>
+        <div class="category text-center mt-1" style="background-color: <%= category[:tag].color %>; color: white;">
+          <%= category[:tag].name %> <%= category[:goals].count %>
+        </div>
+      <% end %>
     <% end %>
+    <div class="mt-5">
+      <% if @user.goals_by_category.reject { |category| category[:goals].present? }.present? %>
+        Looks like you dont have a <%= @user.goals_by_category.reject { |category| category[:goals].present? }.sample[:tag].name %>-Goal yet! Why not <%= link_to 'create', new_goal_path, class: 'link-underline', data: {turbolinks: false} %> one?
+      <% end %>
+    </div>
   </div>
 <% end %>
+
+<style>
+  .link-underline {
+    font-weight: bolder;
+  }
+  .category {
+    border-radius: 4px;
+  }
+</style>
+
