@@ -14,7 +14,7 @@
 
   <body>
     <div class="container d-flex flex-column justify-content-around" style="min-height: 100vh;">
-      <div class="row" style="height: 95vh;">
+      <div class="row" style="height: 95vh;position:relative;">
         <div class="col-xs-12 col-sm-4 offset-sm-4 sign-colors d-flex justify-content-around flex-column height-100 p-4">
           <%= render 'shared/navbar' %>
           <div class="height-60 mt-10"><%= yield %></div>
@@ -35,6 +35,11 @@
             </div>
           <% end %>
         </div>
+        <% if params[:action] == "index" %>
+          <div class="col-xs-12 col-sm-4 offset-sm-4" style="position: absolute;bottom: 2%;text-align:right;">
+            <i class="fas fa-info-circle" style="font-size: 1.2rem;color: black;"></i>
+          </div>
+        <% end %>
       </div>
     </div>
   </body>
