@@ -11,6 +11,8 @@
     <%= goal.name %>
   </div>
   <div class="body">
-    <%= goal.description.truncate(50) %>
+    <%= link_to goal_path(goal), data: {turbolinks: false} do %>
+      <%= goal.description.truncate(50) %>
+    <% end %>
   </div>
 </div>

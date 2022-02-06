@@ -37,10 +37,56 @@
         </div>
         <% if params[:action] == "index" %>
           <div class="col-xs-12 col-sm-4 offset-sm-4" style="position: absolute;bottom: 2%;text-align:right;">
-            <i class="fas fa-info-circle" style="font-size: 1.2rem;color: black;"></i>
+            <i class="fas fa-info-circle" style="font-size: 1.2rem;" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">How does it work?</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column justify-content-around align-items-center">
+                  <h2 class="font-1-2">
+                    👈 Swipe Left
+                  </h2>
+                  <p class="">
+                    to mark as in progress
+                  </p>
+                  <br>
+                  <h2 class="font-1-2">
+                    ☝️ Swipe Up
+                  </h2>
+                  <p class="">
+                    to cycle through your Goals
+                  </p>
+                  <br>
+                  <h2 class="font-1-2">
+                    👉 Swipe Right
+                  </h2>
+                  <p class="">
+                    to mark as complete
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% elsif params[:controller] == 'goals' && params[:action] == 'show' %>
+          <div class="col-xs-12 col-sm-4 offset-sm-4" style="position: absolute;bottom: 2%;text-align:right;">
+            <%= link_to goal_path(@goal), method: :delete do %>
+              <i class="fas fa-trash-alt"></i>
+            <% end %>
           </div>
         <% end %>
       </div>
     </div>
   </body>
 </html>
+
+
+
+
+
+
+

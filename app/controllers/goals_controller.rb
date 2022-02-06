@@ -51,7 +51,7 @@ class GoalsController < ApplicationController
 
   def destroy
     @goal.destroy
-    redirect_back(fallback_location: root_path)
+    redirect_to user_path(current_user)
   end
 
   private

@@ -20,8 +20,8 @@
     Your Goals at a glance:
     <% @user.goals_by_category.each do |category| %>
       <% if category[:goals].present? %>
-        <div class="category text-center mt-1" style="background-color: <%= category[:tag].color %>; color: white;">
-          <%= category[:tag].name %> <%= category[:goals].count %>
+        <div class="category text-center mt-2" style="background-color: <%= category[:tag].color %>; color: white;">
+          <%= category[:tag].name %> *<%= category[:goals].count %>
         </div>
       <% end %>
     <% end %>
