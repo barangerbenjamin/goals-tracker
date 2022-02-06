@@ -6,7 +6,7 @@
       </div>
     <% end %>
     <div class="goal-card deck-end" data-position="<%= @goals.count + 1 %>">
-      <% if Goal.not_completed(current_user).any? %>
+      <% if current_user.goals.present? %>
         <div class="deck-end-prompt mt-3">
           Done for the day!
         </div>

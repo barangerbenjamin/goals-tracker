@@ -29,7 +29,7 @@
             </div>
           <% else %>
             <div class="d-flex align-items-center justify-content-around height-20">
-              <% if Goal.not_completed(current_user).any? && params[:action] != "new" %>
+              <% if params[:action] != "new" %>
                 <%= link_to "New goal", new_goal_path, data: {turbolinks: false} %>
               <% end %>
             </div>

@@ -1,6 +1,6 @@
 class GoalsController < ApplicationController
 
-  before_action :set_goal, only: [:show, :edit, :update, :destroy]
+  before_action :set_goal, only: [:show, :edit, :update, :destroy, :update_js]
 
   def index
     @goals = Goal.not_completed(current_user).reject { |goal| Date.today.in? goal.actioned }
@@ -30,10 +30,20 @@ class GoalsController < ApplicationController
   def edit
   end
 
-  def update
+  def update_js
     @goal.actioned << Date.today unless params[:no_action] || Date.today.in?(@goal.actioned)
     if @goal.update(goal_params)
       render status: 200
+    else
+      render :edit
+    end
+  end
+
+  def update
+    @goal.actioned << Date.today unless params[:no_action] || Date.today.in?(@goal.actioned)
+
+    if @goal.update(goal_params)
+      redirect_to @goal
     else
       render :edit
     end

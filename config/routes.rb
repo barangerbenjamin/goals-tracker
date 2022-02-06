@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: 'goals#index'
+  patch 'update_js/:id', to: 'goals#update_js'
 
   resources :goals, except: [:index]
   resources :users, only: :show

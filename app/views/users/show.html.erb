@@ -1,20 +1,25 @@
-<div class="greeting">
-  Hello, <%= @user.email %>
-</div>
-
+<h2 class="font-1-2">Hello, <%= @user.email %></h2>
 <div class="d-block">
   <% if @user.goals.present? %>
-    You have set <%= pluralize(@user.goals.count, 'Goal') %>!
+    <h2 class="font-1-2">You have set yourself <%= pluralize(@user.goals.count, 'Goal') %>!</h2>
 
     <div class="link mt-5 d-flex">
-      <%= link_to '💪Lets tackle them!', root_path, class: 'form-submit d-flex justify-content-around', data: {turbolinks: false} %>
+      <%= link_to '💪Lets tackle them!', root_path, class: 'form-submit d-flex justify-content-around', data: { turbolinks: false } %>
     </div>
   <% else %>
-    You havent set any goals yet! 😱
+    <h2 class="font-1-2">You havent set any goals yet! 😱</h2>
 
     <div class="link mt-5 d-flex">
-      <%= link_to '👉Set your first Goal here!', new_goal_path, class: 'form-submit d-flex justify-content-around', data: {turbolinks: false} %>
+      <%= link_to '👉Set your first Goal here!', new_goal_path, class: 'form-submit d-flex justify-content-around', data: { turbolinks: false } %>
     </div>
   <% end %>
 </div>
 
+<% if @user.goals.present? %>
+  <div class="mt-5">
+    Your Goals at a glance:
+    <% @user.goals.each do |goal| %>
+
+    <% end %>
+  </div>
+<% end %>

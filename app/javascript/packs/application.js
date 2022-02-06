@@ -85,7 +85,7 @@ function slotInAndRemove(event, timeoutDuration) {
 }
 
 function updateGoal(event, data) {
-  fetch(`/goals/${event.target.dataset.goalId}`, {
+  fetch(`/update_js/${event.target.dataset.goalId}`, {
     method: "PATCH",
     headers: {"Content-Type": "application/json", 'X-CSRF-Token': Rails.csrfToken()},
     body: JSON.stringify(data)
