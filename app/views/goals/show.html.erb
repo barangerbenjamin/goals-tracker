@@ -1,16 +1,16 @@
-<div class="goal-card swipe not-actioned shadow">
-  <div class="card-top" style='background-color: <%= @goal.tags.first.color %>'>
+<div class="show-c d-flex flex-column" style="height: 100%;">
+  <div class="c-t" style='height: 10%;border-radius: 4px 4px 0px 0px; background-color: <%= @goal.tags.first.color %>'>
+  </div>
+  <div class="c-m" style="position: relative;">
+    <%= link_to edit_goal_path(@goal) do %>
+      <img src="<%= @goal.tags.first.url %>" alt="" style="max-width: 100%;">
+      <div class="header-show">
+        <%= @goal.name %>
+      </div>
+    <% end %>
+  </div>
+  <div class=" shadow c-b d-flex align-items-center justify-content-around" style="height: 20%;">
+    <%= @goal.description %>
+  </div>
 
-  </div>
-  <div class="card-image">
-    <img src="<%= @goal.tags.first.url %>" alt="">
-  </div>
-  <div class="card-bottom">
-    <div class="header">
-      <%= @goal.name %>
-    </div>
-    <div class="body">
-      <%= @goal.description %>
-    </div>
-  </div>
 </div>

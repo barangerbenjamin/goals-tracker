@@ -8,8 +8,10 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import { initSelect2 } from '../components/init_select2';
+import { initFlatpickr } from "../components/flatpickr";
 
 initSelect2();
+initFlatpickr();
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()

@@ -27,6 +27,11 @@
   border-radius: 4px;
   z-index: 60;
 }
+.card-big {
+  height: 50vh;
+  width: 20%;
+}
+
 .shadow {
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
@@ -121,6 +126,18 @@
   font-size: 1.1rem;
   top: -42px;
   left: 0;
+  padding: 2px;
+  color: antiquewhite;
+}
+
+.header-show {
+  width: 100%;
+  position: absolute;
+  font-weight: 700;
+  font-size: 1.1rem;
+  bottom: 20px;
+  left: 0;
+  text-align: center;
   padding: 2px;
   color: antiquewhite;
 }
