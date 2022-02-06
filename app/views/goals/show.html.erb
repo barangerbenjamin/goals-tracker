@@ -1,8 +1,8 @@
-<div class="show-c d-flex flex-column" style="height: 100%;">
+<div class="show-c d-flex flex-column" style="height: 100%; max-width: 90%; margin: 0 auto;">
   <div class="c-t" style='height: 10%;border-radius: 4px 4px 0px 0px; background-color: <%= @goal.tags.first.color %>'>
   </div>
   <div class="c-m" style="position: relative;">
-    <%= link_to edit_goal_path(@goal) do %>
+    <%= link_to edit_goal_path(@goal), data: {turbolinks: false} do %>
       <img src="<%= @goal.tags.first.url %>" alt="" style="max-width: 100%;">
       <div class="header-show">
         <%= @goal.name %>

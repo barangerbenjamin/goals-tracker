@@ -34,7 +34,7 @@
           <h2 class="font-1-2" style='text-align: left'>¡Hola! 🕵️</h2>
           <h2 class="font-1-2" style='text-align: left'>I see you are new around here!?</h2>
         </div>
-        <%= link_to 'Add your first Goal', new_goal_path, class: 'form-submit' %>
+        <%= link_to 'Add your first Goal', new_goal_path, class: 'form-submit', data: {turbolinks: false} %>
       <% end %>
     </div>
     <% @actioned_goals.each_with_index do |goal, index| %>
