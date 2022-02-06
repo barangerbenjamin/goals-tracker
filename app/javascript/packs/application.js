@@ -34,16 +34,21 @@ cards.forEach((targetElement) => {
 });
 
 function lowerDataPosition() {
-  console.log('1')
+  
   const cards = [].slice.call(document.querySelectorAll('.cards .goal-card'));
   const positions = cards.map(card => {
     return parseInt(card.dataset.position)
   })
   cards.forEach(card => {
-    setTimeout(function() {
+    setTimeout(function () {
       card.dataset.position = card.dataset.position - 1
     }, 120);
   })
+  if (incomplete.classList.contains('expanded')) {
+    const deckEnd = document.querySelector('.goal-card.deck-end')   
+    incomplete.innerHTML = '<i class="fas fa-folder"></i>'
+    deckEnd.classList.remove('shadow')
+  }
 }
 
 function slotInBeforeDeckEnd(event, isDeckEnd) {
@@ -64,7 +69,7 @@ function slotInBeforeDeckEnd(event, isDeckEnd) {
 }
 function slotInAfterDeckEnd(event, isDeckEnd) {
   const deckEnd = document.querySelector('.goal-card.deck-end')
-  if(!isDeckEnd) {
+  if (!isDeckEnd) {
     event.target.classList.remove('not-actioned')
     event.target.classList.add('actioned')
   }
@@ -79,7 +84,7 @@ function slotInAfterDeckEnd(event, isDeckEnd) {
 
 function slotInAndRemove(event, timeoutDuration) {
   stack.getCard(event.target).throwIn(0, 0)
-  setTimeout(function() {
+  setTimeout(function () {
     event.target.remove()
   }, timeoutDuration);
 }
@@ -87,50 +92,51 @@ function slotInAndRemove(event, timeoutDuration) {
 function updateGoal(event, data) {
   fetch(`/update_js/${event.target.dataset.goalId}`, {
     method: "PATCH",
-    headers: {"Content-Type": "application/json", 'X-CSRF-Token': Rails.csrfToken()},
+    headers: { "Content-Type": "application/json", 'X-CSRF-Token': Rails.csrfToken() },
     body: JSON.stringify(data)
   })
 }
 
 stack.on('throwout', (event) => {
   if (event.throwDirection == Swing.Direction.UP) {
-    if(event.target.hasAttribute('data-goal-id')) {
+    if (event.target.hasAttribute('data-goal-id')) {
       slotInBeforeDeckEnd(event, false)
-      updateGoal(event, {goal: {complete: false}, no_action: true})
+      updateGoal(event, { goal: { complete: false }, no_action: true })
     } else {
       slotInBeforeDeckEnd(event, true)
     }
     lowerDataPosition()
   } else if (event.throwDirection == Swing.Direction.LEFT) {
-    if(event.target.hasAttribute('data-goal-id')) {
-      updateGoal(event, {goal: {complete: false}})
+    if (event.target.hasAttribute('data-goal-id')) {
+      updateGoal(event, { goal: { complete: false } })
       slotInAfterDeckEnd(event, false)
     } else {
       slotInAfterDeckEnd(event, true)
     }
     lowerDataPosition()
   } else if (event.throwDirection == Swing.Direction.RIGHT) {
-    updateGoal(event, {goal: {complete: true}})
+    updateGoal(event, { goal: { complete: true } })
     slotInAndRemove(event, 1000)
     lowerDataPosition()
-   }
+  }
 });
 
 const incomplete = document.querySelector('.incomplete')
 
-if(incomplete) {
+if (incomplete) {
   incomplete.addEventListener('click', () => {
     incomplete.classList.toggle('expanded')
     const deckEnd = document.querySelector('.goal-card.deck-end')
     const cards = [].slice.call(document.querySelectorAll('.cards .goal-card.actioned'));
-    if(cards.length > 0) {
-      cards.forEach(card => {
+    if (cards.length > 0) {
+      cards.forEach(card => {
         card.classList.remove('actioned')
         card.classList.add('not-actioned')
       })
       stack.createCard(deckEnd).throwOut(0, -700)
+      stack.getCard(deckEnd).destroy()
     }
-    if(incomplete.classList.contains('expanded')) {
+    if (incomplete.classList.contains('expanded')) {
       incomplete.innerHTML = '<i class="fas fa-folder-open"></i>'
       deckEnd.classList.add('shadow')
     } else {
@@ -141,7 +147,7 @@ if(incomplete) {
 }
 
 // stack.on('throwin', () => {
-  // console.log('Card has snapped back to the stack.');
+// console.log('Card has snapped back to the stack.');
 // });
 
 const inputs = document.querySelectorAll('input')
